@@ -6,6 +6,7 @@ $(document).ready(function () {
         "Grace and Frankie", "American Horror Story", "Arrested Development"];
     console.log(tvShows);
 
+    //function to render the buttons
     function renderButtons() {
         $("#view-buttons").empty();
 
@@ -57,23 +58,43 @@ $(document).ready(function () {
             var results = response.data;
             console.log(results);
 
+            // loop over query results
             for (var i = 0; i < results.length; i++) {
-
+                //storing the rating in a var
                 var rating = response.data[i].rating
+                //making divs for the gifs and rating
                 var newDiv = $("<div class='gifs'>");
                 var imageDiv = $("<img>").addClass("images");
                 var ratingP = $('<p class="rating">Rating: ' + rating + '</p>')
                 console.log(rating);
 
+                //appending the gif and the rating
                 newDiv.append(imageDiv, ratingP)
                 imageDiv.attr("src", results[i].images.fixed_height_still.url)
-
-
-                .attr('data-still', response.data[i].images.fixed_height_still.url)
-                .attr('data-animate', response.data[i].images.fixed_height.url)
+                    //giving attr's to the still/animated gifs
+                    .attr("still", response.data[i].images.fixed_height_still.url)
+                    .attr("animate", response.data[i].images.fixed_height.url)
                 $("#gifs-go-here").append(newDiv);
 
             }
         });
     });
+
+    // function to switch between still and animated gifs
+
+    function animate() {
+        var img = $(this).attr("src");
+        switch (img) {
+            case $(this).attr("still"):
+                $(this).attr("src", $(this).attr("animate"))
+                break;
+            case $(this).attr("animate"):
+                $(this).attr("src", $(this).attr("still"))
+                break;
+            default:
+                break;
+        }
+    };
+    //calling the animate function when images are clicked on 
+    $(document).on("click", ".images", animate);
 });
