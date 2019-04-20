@@ -59,18 +59,20 @@ $(document).ready(function () {
 
             for (var i = 0; i < results.length; i++) {
 
-                var rating = response.data[i].rating 
+                var rating = response.data[i].rating
                 var newDiv = $("<div class='gifs'>");
                 var imageDiv = $("<img>").addClass("images");
                 var ratingP = $('<p class="rating">Rating: ' + rating + '</p>')
                 console.log(rating);
-                
-                newGIFS.attr("src", results[i].images.fixed_height_still.url);
-                newGIFS.attr("alt", "missing gif");
-                newGIFS.attr("id", "new-gif" + i);
-                newGIFS.append(ratingP);
 
-                $("#gifs-go-here").append(newGIFS);
+                newDiv.append(imageDiv, ratingP)
+                imageDiv.attr("src", results[i].images.fixed_height_still.url)
+
+
+                .attr('data-still', response.data[i].images.fixed_height_still.url)
+                .attr('data-animate', response.data[i].images.fixed_height.url)
+                $("#gifs-go-here").append(newDiv);
+
             }
         });
     });
